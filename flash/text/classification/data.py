@@ -295,12 +295,11 @@ class TextListDataSource(TextDataSource):
                 dataset.num_classes = len(labels)
                 self.set_state(LabelsState(labels))
 
-                labels = self.get_state(LabelsState)
+            labels = self.get_state(LabelsState)
 
             # convert labels to ids
-            if labels is not None:
-                labels = labels.labels
-                label_to_class_mapping = {v: k for k, v in enumerate(labels)}
+            if labels:
+                label_to_class_mapping = {v: k for k, v in enumerate(labels.labels)}
                 hf_dataset = hf_dataset.map(partial(self._transform_label, label_to_class_mapping, "labels"))
 
         hf_dataset = hf_dataset.map(partial(self._tokenize_fn, input="input"), batched=True)
@@ -372,11 +371,11 @@ class TextClassificationPreprocess(Preprocess):
             data_sources={
                 DefaultDataSources.CSV: TextCSVDataSource(self.backbone, max_length=max_length),
                 DefaultDataSources.JSON: TextJSONDataSource(self.backbone, max_length=max_length),
-                "data_frame": TextDataFrameDataSource(self.backbone, max_length=max_length),
-                "list": TextListDataSource(self.backbone, max_length=max_length),
-                "sentences": TextSentencesDataSource(self.backbone, max_length=max_length),
+                DefaultDataSources.DATAFRAME: TextDataFrameDataSource(self.backbone, max_length=max_length),
+                DefaultDataSources.LIST: TextListDataSource(self.backbone, max_length=max_length),
+                DefaultDataSources.SENTENCES: TextSentencesDataSource(self.backbone, max_length=max_length),
             },
-            default_data_source="sentences",
+            default_data_source=DefaultDataSources.SENTENCES,
             deserializer=TextDeserializer(backbone, max_length),
         )
 
@@ -477,7 +476,7 @@ class TextClassificationData(DataModule):
             The constructed data module.
         """
         return cls.from_data_source(
-            "data_frame",
+            DefaultDataSources.DATAFRAME,
             (train_data_frame, input_field, target_fields),
             (val_data_frame, input_field, target_fields),
             (test_data_frame, input_field, target_fields),
@@ -521,13 +520,13 @@ class TextClassificationData(DataModule):
         list.
 
         Args:
-            train_data: A list to use as the train inputs.
+            train_data: A list of sentences to use as the train inputs.
             train_targets: A sequence of targets (one per train input) to use as the train targets.
-            val_data: A list to use as the validation inputs.
+            val_data: A list of sentences to use as the validation inputs.
             val_targets: A sequence of targets (one per validation input) to use as the validation targets.
-            test_data: A list to use as the test inputs.
+            test_data: A list of sentences  to use as the test inputs.
             test_targets: A sequence of targets (one per test input) to use as the test targets.
-            predict_data: A list to use when predicting.
+            predict_data: A list of sentences to use when predicting.
             train_transform: The dictionary of transforms to use during training which maps
                 :class:`~flash.core.data.process.Preprocess` hook names to callable transforms.
             val_transform: The dictionary of transforms to use during validation which maps
@@ -552,7 +551,7 @@ class TextClassificationData(DataModule):
             The constructed data module.
         """
         return cls.from_data_source(
-            "list",
+            DefaultDataSources.LIST,
             (train_data, train_targets),
             (val_data, val_targets),
             (test_data, test_targets),

@@ -154,10 +154,13 @@ class DefaultDataSources(LightningEnum):
 
     FOLDERS = "folders"
     FILES = "files"
+    LIST = "list"
     NUMPY = "numpy"
     TENSORS = "tensors"
     CSV = "csv"
     JSON = "json"
+    DATAFRAME = "data_frame"
+    SENTENCES = "sentences"
     DATASETS = "datasets"
     FIFTYONE = "fiftyone"
 
