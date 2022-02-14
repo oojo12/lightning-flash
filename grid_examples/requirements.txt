@@ -1,0 +1,14 @@
+tensorboard==2.7.0
+torch==1.10.2
+lightning-flash[image]==0.6.0
+lightning-bolts==0.5.0
+torchvision>=0.8.2
+scikit-learn>=0.23
+Pillow
+opencv-python-headless
+gym[atari]>=0.17.2, <0.20.0  # needed for RL
+atari_py==0.2.*
+matplotlib
+wandb
+scipy
+kornia>=0.5.1<0.5.4
