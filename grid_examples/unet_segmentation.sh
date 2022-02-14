@@ -6,4 +6,4 @@ grid run --name unet --instance_type=g4dn.xlarge --gpus=1 ../flash_examples/sema
 grid run --name unet_multi_gpu --instance_type=g3.8xlarge --gpus=2 ../flash_examples/semantic_segmentation_unet.py
 
 # multi-gpu + HPO example
-grid run --name unet_multi_gpu --instance_type=g3.8xlarge --gpus=2 ../flash_examples/semantic_segmentation_unet.py --max_epochs="[32, 64, 128]"
+grid run --name unet_multi_gpu_hpo --instance_type=g3.8xlarge --gpus=2 ../flash_examples/semantic_segmentation_unet.py --max_epochs="[32, 64, 128]"
