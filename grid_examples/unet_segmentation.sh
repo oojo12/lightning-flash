@@ -3,7 +3,7 @@
 grid run --name unet --instance_type=g4dn.xlarge --gpus=1 --dependency_file=./requirements.txt ../flash_examples/semantic_segmentation_unet.py
 
 # multi-gpu example
-grid run --name unet_multi_gpu --instance_type=g3.8xlarge --gpus=2 --dependency_file=./requirements.txt ../flash_examples/semantic_segmentation_unet.py
+grid run --name unet-multi-gpu --instance_type=g3.8xlarge --gpus=2 --dependency_file=./requirements.txt ../flash_examples/semantic_segmentation_unet.py
 
 # multi-gpu + HPO example
-grid run --name unet_multi_gpu_hpo --instance_type=g3.8xlarge --gpus=2 --dependency_file=./requirements.txt ../flash_examples/semantic_segmentation_unet.py --max_epochs="[32, 64, 128]"
+grid run --name unet-multi-gpu-hpo --instance_type=g3.8xlarge --gpus=2 --dependency_file=./requirements.txt ../flash_examples/semantic_segmentation_unet.py --max_epochs="[32, 64, 128]"
