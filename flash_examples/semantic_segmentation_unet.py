@@ -22,7 +22,6 @@ if __name__ == '__main__':
 
     parser = ArgumentParser()
     parser.add_argument('--gpus', type=int, default=None)
-    parser.add_argument('--strategy', type=str, default='ddp')
     parser.add_argument('--batch_size', type=int, default=4)
     parser.add_argument('--max_epochs', type=int, default=10)
     args = parser.parse_args()
